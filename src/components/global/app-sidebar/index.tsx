@@ -12,7 +12,7 @@ import NavFooter from './nav-footer'
 const AppSidebar = ({ recentProjects, user, ...props }: {
     recentProjects: Project[]
 } & { user: User } & React.ComponentProps<typeof Sidebar>) => {
-    const defaultImage = 'https://via.placeholder.com/150'; // Temporary image URL
+    const defaultImage = 'https://via.placeholder.com/150';
 
     return (
         <Sidebar collapsible='icon' className='min-w-[212px] bg-background-90 flex flex-col' {...props}>

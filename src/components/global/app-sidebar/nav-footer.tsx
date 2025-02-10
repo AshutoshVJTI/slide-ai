@@ -19,7 +19,7 @@ const NavFooter = ({ prismaUser }: { prismaUser: User }) => {
     return (
         <SidebarMenu>
             <SidebarMenuItem>
-                <div className='flex flex-col gap-y-6 items-start group-data[collapsible=icon]:hidden'>
+                <div className='flex flex-col gap-y-6 items-start group-data-[collapsible=icon]:hidden'>
                     {!prismaUser.subscription && (
                         <div className="flex flex-col items-start p-2 pb-3 gap-4 bg-background-80 rounded-xl">
                             <div className="flex flex-col items-start gap-1">
