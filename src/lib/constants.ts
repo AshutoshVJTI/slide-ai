@@ -118,10 +118,10 @@ export const itemVariants = {
     },
 };
 
-export const timeAgo = (timestamp: string) => {
+export const timeAgo = (timestamp: Date) => {
     const now = new Date();
     const diffInSeconds = Math.floor(
-        (now.getTime() - new Date(timestamp).getTime()) / 1000
+        (now.getTime() - timestamp.getTime()) / 1000
     );
 
     // Time intervals in seconds
@@ -440,11 +440,6 @@ export const component: ComponentGroup[] = [
         ],
     },
 ];
-
-
-
-
-
 
 export const themes: Theme[] = [
     {
