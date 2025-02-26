@@ -1,15 +1,23 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { containerVariants, CreatePageCard, itemVariants } from '@/lib/constants';
+import RecentPrompts from '../GenerateAI/RecentPrompts';
+import usePromptStore from '@/store/usePromptStore';
 
 type Props = {
     onSelectOption: (option: string) => void;
 }
 
 const CreatePage = ({ onSelectOption }: Props) => {
+    const { prompts, setPage } = usePromptStore();
+
+    // useEffect(() => {
+    //     setPage('create');
+    // }, []);
+
     return (
         <motion.div
             variants={containerVariants}
@@ -37,8 +45,8 @@ const CreatePage = ({ onSelectOption }: Props) => {
                             transition: { duration: 0.1 },
                         }}
                         className={`${card.highlight
-                                ? 'bg-vivid-gradient'
-                                : 'hover:bg-vivid-gradient border'
+                            ? 'bg-vivid-gradient'
+                            : 'hover:bg-vivid-gradient border'
                             } rounded-xl p-[1px] transition-all duration-300 ease-in-out`}
                     >
                         <motion.div
@@ -61,26 +69,20 @@ const CreatePage = ({ onSelectOption }: Props) => {
                                     {card.description}
                                 </p>
                             </div>
-                            <motion.div
-                                className="self-end"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                            <Button
+                                variant={card.highlight ? 'default' : 'outline'}
+                                className="w-fit rounded-xl font-bold"
+                                size="sm"
+                                onClick={() => onSelectOption(card.type)}
                             >
-                                <Button
-                                    variant={card.highlight ? 'default' : 'outline'}
-                                    className="w-fit rounded-xl font-bold"
-                                    size="sm"
-                                    onClick={() => onSelectOption(card.type)}
-                                >
-                                    {card.highlight ? 'Generate' : 'Continue'}
-                                </Button>
-                            </motion.div>
+                                {card.highlight ? 'Generate' : 'Continue'}
+                            </Button>
                         </motion.div>
                     </motion.div>
                 ))}
             </motion.div>
 
-            
+            {prompts.length < 0 && <RecentPrompts />}
         </motion.div >
     )
 }

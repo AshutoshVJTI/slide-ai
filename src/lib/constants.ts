@@ -118,10 +118,10 @@ export const itemVariants = {
     },
 };
 
-export const timeAgo = (timestamp: Date) => {
+export const timeAgo = (timestamp: string) => {
     const now = new Date();
     const diffInSeconds = Math.floor(
-        (now.getTime() - timestamp.getTime()) / 1000
+        (now.getTime() - new Date(timestamp).getTime()) / 1000
     );
 
     // Time intervals in seconds

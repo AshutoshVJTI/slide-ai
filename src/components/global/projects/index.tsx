@@ -20,7 +20,7 @@ const Projects = ({ projects }: Props) => {
                     key={idx}
                     projectId={project?.id}
                     title={project?.title}
-                    createdAt={project?.createdAt}
+                    createdAt={project?.createdAt.toISOString()} //TODO: Maybe incorrect
                     isDeleted={project?.isDeleted}
                     slideData={project?.slides}
                     themeName={project?.themeName}

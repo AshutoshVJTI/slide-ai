@@ -14,7 +14,7 @@ import { deleteProject, recoverProject } from '@/actions/project';
 type Props = {
   projectId: string;
   title: string;
-  createdAt: Date;
+  createdAt: string;
   isDeleted?: boolean;
   slideData: any;
   themeName: string;
