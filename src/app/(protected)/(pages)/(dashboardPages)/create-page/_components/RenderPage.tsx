@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import CreatePage from './CreatePage/CreatePage';
 import CreativeAI from './GenerateAI/CreativeAI';
+import ScratchPage from './Scratch/ScratchPage';
 
 const RenderPage = () => {
     const router = useRouter();
@@ -17,9 +18,9 @@ const RenderPage = () => {
     }
 
     const handleSelectOption = (option: string) => {
-        if(option === 'template') router.push('/templates');
-        else if(option === 'create-scratch') setPage('create-scratch');
-        else if(option === 'creative-ai') setPage('creative-ai');
+        if (option === 'template') router.push('/templates');
+        else if (option === 'create-scratch') setPage('create-scratch');
+        else if (option === 'creative-ai') setPage('creative-ai');
     }
 
     const renderStep = () => {
@@ -29,7 +30,7 @@ const RenderPage = () => {
             case 'creative-ai':
                 return <CreativeAI onBack={handleBack} />
             case 'create-scratch':
-                return <div className='w-full h-full bg-blue-500'>Create Scratch</div>
+                return <ScratchPage onBack={handleBack} />
             default:
                 return null
         }

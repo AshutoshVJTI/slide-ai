@@ -4,6 +4,9 @@ import { OutlineCard } from '@/lib/types';
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Card as UICard } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Trash2 } from 'lucide-react';
 
 type Props = {
     card: OutlineCard;
@@ -60,15 +63,39 @@ const Card = ({
                     onClick={onCardClick}
                     onDoubleClick={onCardDoubleClick}
                 >
-                    <div className="flex items-center gap-2">
-                        <span
-                            className={`text-base sm:text-lg py-1 px-4 rounded-xl bg-primary-20 ${isEditing || isSelected ? 'bg-secondary-90 dark: text-black' : ''
-                                }`}>
-                            {card.order}
-                        </span>
-                        <span className="text-base sm:text-lg">{card.title}</span>
+                    <div className='flex justify-between items-center'>
+                        {isEditing ? (
+                            <Input
+                                ref={inputRef}
+                                value={editText}
+                                onChange={(e) => onEditChange(e.target.value)}
+                                onBlur={onEditBlur}
+                                onKeyDown={onEditKeyDown}
+                                className='text-base sm:text-lg'
+                            />
+                        ) : (
+                            <div className="flex items-center gap-2">
+                                <span
+                                    className={`text-base sm:text-lg py-1 px-4 rounded-xl bg-primary-20 ${isEditing || isSelected ? 'bg-secondary-90 dark: text-black' : ''
+                                        }`}>
+                                    {card.order}
+                                </span>
+                                <span className="text-base sm:text-lg">{card.title}</span>
+                            </div>
+                        )}
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDeleteClick();
+                            }}
+                            aria-label={`Delete card ${card.order}`}
+                        >
+                            <Trash2 className='h-4 w-4' />
+                        </Button>
                     </div>
-                </UICard>
+                </UICard >
             </div >
         </motion.div >
     )

@@ -10,6 +10,10 @@ import { Input } from '@/components/ui/input';
 import useCreativeAIStore from '@/store/useCreativeAiStore';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import CardList from '../Common/CardList';
+import usePromptStore from '@/store/usePromptStore';
+import RecentPrompts from './RecentPrompts';
+import { toast } from 'sonner';
+import { generateCreativePrompt } from '@/lib/openai';
 
 type Props = {
     onBack: () => void;
@@ -19,6 +23,9 @@ const CreativeAI = ({
     onBack
 }: Props) => {
     const router = useRouter();
+
+    const { prompts, addPrompt } = usePromptStore();
+
     const { currentAiPrompt, setCurrentAiPrompt, outlines, resetOutlines, addOutline, addMultipleOutlines } = useCreativeAIStore();
     const [noOfCards, setNoOfCards] = React.useState(0);
     const [editingCard, setEditingCard] = React.useState<string | null>(null);
@@ -39,7 +46,17 @@ const CreativeAI = ({
         resetOutlines();
     }
 
-    // const generateOutline = () => {}  //TODO: Implement this function
+    const generateOutline = async () => {
+        if (currentAiPrompt === '') return toast.error("Error", { description: "Please enter a prompt" })
+        setIsGenerating(true);
+        // const response = await generateCreativePrompt(currentAiPrompt);
+
+        // TODO: use openai and complete this function
+    }
+
+    const handleGenerate = () => {
+
+    }
 
     return (
         <motion.div
@@ -103,7 +120,7 @@ const CreativeAI = ({
             <div className="w-full flex justify-center items-center">
                 <Button
                     className="font-medium text-lg gap-2 flex items-center"
-                // onClick={generateOutline}
+                    onClick={generateOutline}
                 >
                     {isGenerating ? (
                         <>
@@ -131,6 +148,23 @@ const CreativeAI = ({
                 setSelectedCard={setSelectedCard}
                 addMultipleOutlines={addMultipleOutlines}
             />
+            {outlines.length > 0 && (
+                <Button
+                    className="w-full"
+                    onClick={handleGenerate}
+                    disabled={isGenerating}
+                >
+                    {isGenerating ? (
+                        <>
+                            <Loader2 className='animate-spin mr-2' /> Generating...
+                        </>
+                    ) : (
+                        'Generate PPT'
+                    )}
+                </Button>
+            )}
+
+            {prompts?.length > 0 && <RecentPrompts />}
         </motion.div>
     )
 }
