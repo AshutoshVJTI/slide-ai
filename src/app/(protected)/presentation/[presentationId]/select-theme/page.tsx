@@ -8,3 +8,5 @@ const Page = (props: Props) => {
     <ThemePreview></ThemePreview>
   )
 }
+
+export default Page

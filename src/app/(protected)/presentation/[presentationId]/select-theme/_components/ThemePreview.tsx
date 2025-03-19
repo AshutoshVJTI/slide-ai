@@ -3,8 +3,13 @@
 import { Button } from '@/components/ui/button';
 import { useSlideStore } from '@/store/useSlideStore';
 import { useAnimation } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react';
 import { redirect, useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
+import ThemeCard from './ThemeCard';
+import ThemePicker from './ThemePicker';
+import { themes } from '@/lib/constants';
+import { Theme } from '@/lib/types';
 
 const ThemePreview = () => {
     const params = useParams();
@@ -59,7 +64,7 @@ const ThemePreview = () => {
 
     const mainCardContent = (
         <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grod-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div
                     className="rounded-xl p-6"
                     style={{ backgroundColor: selectedTheme.accentColor + '10' }}
@@ -91,7 +96,7 @@ const ThemePreview = () => {
                     variant={'outline'}
                     className='h-12 text-lg px-6 font-medium'
                     style={{
-                        backgroundColor: selectedTheme.accentColor,
+                        borderColor: selectedTheme.accentColor,
                         color: selectedTheme.fontColor
                     }}
                 >
@@ -103,11 +108,99 @@ const ThemePreview = () => {
 
     const rightCardContent = (
         <div className="space-y-4">
+            <div
+                className="rounded-xl p-6"
+                style={{ backgroundColor: selectedTheme.accentColor + '10' }}
+            >
+                <h3
+                    className="text-xl font-semibold mb-4"
+                    style={{ color: selectedTheme.accentColor }}
+                >
+                    Theme Features
+                </h3>
+                <ul
+                    className='list-disc list-inside space-y-2'
+                    style={{ color: selectedTheme.accentColor }}
+                >
+                    <li>Responsive design</li>
+                    <li>Dark and light modes</li>
+                    <li>Custom color schemes</li>
+                    <li>Accessibility optimized</li>
+                </ul>
+            </div>
+            <Button
+                variant="outline"
+                className='w-full h-12 text-lg font-medium'
+                style={{
+                    backgroundColor: selectedTheme.accentColor,
+                    color: selectedTheme.fontColor,
+                }}
+            >
+                Explore Features
+            </Button>
+        </div>
+    )
 
-        </div>)
+    const applyTheme = (theme: Theme) => {
+        setSelectedTheme(theme);
+        setCurrentTheme(theme);
+    }
 
     return (
-        <div>ThemePreview</div>
+        <div
+            className="h-screen w-full flex"
+            style={{ backgroundColor: selectedTheme.backgroundColor, color: selectedTheme.accentColor, fontFamily: selectedTheme.fontFamily }}
+        >
+            <div className="flex-grow flex flex-col p-4 md:p-8 overflow-y-auto">
+                <Button
+                    variant="outline"
+                    className="mb-4 md:mb-8 self-start"
+                    size="lg"
+                    style={{
+                        backgroundColor: selectedTheme.accentColor + '10',
+                        color: selectedTheme.accentColor,
+                        borderColor: selectedTheme.accentColor + '20',
+                    }}
+                    onClick={() => router.push('/create-page')}
+                >
+                    <ArrowLeft className="mr-2 h-5 w-5" />
+                    Back
+                </Button>
+                <div className="w-full flex-grow flex justify-center items-center relative">
+                    <div className="h-full w-full flex justify-center items-center relative">
+                        <ThemeCard
+                            title="Quick Start"
+                            description='Get up and running in no time'
+                            content={leftCardContent}
+                            variant="left"
+                            theme={selectedTheme}
+                            controls={controls}
+                        />
+                        <ThemeCard
+                            title="Main Preview"
+                            description='This is the main theme preview card'
+                            content={mainCardContent}
+                            variant="main"
+                            theme={selectedTheme}
+                            controls={controls}
+                        />
+                        <ThemeCard
+                            title="Theme features"
+                            description='Discover what our themes can do'
+                            content={rightCardContent}
+                            variant="right"
+                            theme={selectedTheme}
+                            controls={controls}
+                        />
+                    </div>
+                </div>
+            </div>
+            <ThemePicker
+                selectedTheme={selectedTheme}
+                themes={themes}
+                onThemeSelect={applyTheme}
+            />
+        </div>
     )
 }
 
