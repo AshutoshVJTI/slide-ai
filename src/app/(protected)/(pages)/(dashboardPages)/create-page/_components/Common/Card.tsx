@@ -44,6 +44,7 @@ const Card = ({
     const inputRef = useRef<HTMLInputElement>(null)
     return (
         <motion.div
+            key={card.id}
             layout
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

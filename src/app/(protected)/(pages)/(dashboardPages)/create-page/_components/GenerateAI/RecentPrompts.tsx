@@ -35,7 +35,7 @@ const RecentPrompts = () => {
                 Your Recent Prompts
             </motion.h2>
             <motion.div variants={containerVariants} className="space-y-2 lg:max-w-[80%] mx-auto">
-                {prompts.map((prompt => (
+                {prompts.map(prompt => (
                     <motion.div key={prompt.id} variants={itemVariants}>
                         <Card className="p-4 flex items-center justify-between hover:bg-caccent/50 transition-colors duration-300">
                             <div className="max-w-[70%]">
@@ -59,7 +59,7 @@ const RecentPrompts = () => {
                             </div>
                         </Card>
                     </motion.div>
-                )))}
+                ))}
             </motion.div>
         </motion.div>
     )

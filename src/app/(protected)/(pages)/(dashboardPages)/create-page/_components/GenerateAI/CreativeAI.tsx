@@ -151,7 +151,7 @@ const CreativeAI = ({
                                     </SelectItem>
                                 ) : (
                                     Array.from({ length: outlines.length }, (_, i) => i + 1).map((num) => (
-                                        <SelectItem key={`card-${num}`} value={num.toString()} className="font-semibold">
+                                        <SelectItem key={`outline-card-${num}`} value={num.toString()} className="font-semibold">
                                             {num} {num === 1 ? 'card' : 'cards'}
                                         </SelectItem>
                                     ))
