@@ -93,7 +93,7 @@ const CreativeAI = ({
                 outlines: outlines,
                 createdAt: new Date().toISOString(),
             })
-            toast.success("Success", { description: "PPT generated successfully" })
+            // toast.success("Success", { description: "PPT generated successfully" })
             setCurrentAiPrompt('');
             resetOutlines();
         } catch (error) {
