@@ -125,7 +125,7 @@ const ProjectCard = ({
       <div className="w-full">
         <div className="space-y-1">
           <h3 className="font-semibold text-base text-primary line-clamp-1">
-            {title} Fake Title
+            {title}
           </h3>
           <div className="flex w-full justify-between items-center gap-2">
             <p

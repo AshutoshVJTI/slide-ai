@@ -35,7 +35,7 @@ const AppSidebar = ({
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
                         <Avatar className="h-14 w-14 rounded-full">
                             <AvatarImage src="/luneth.png" alt="luneth logo" />
-                            <AvatarFallback className="rounded-lg">VI</AvatarFallback>
+                            <AvatarFallback className="rounded-lg">LU</AvatarFallback>
                         </Avatar>
                     </div>
                     <span className="truncate text-primary text-3xl font-semibold">

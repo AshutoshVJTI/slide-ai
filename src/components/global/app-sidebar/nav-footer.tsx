@@ -51,16 +51,16 @@ const NavFooter = ({ prismaUser }: { prismaUser: User }) => {
                         <div className="flex flex-col items-start p-2 pb-3 gap-4 bg-background-80 rounded-xl">
                             <div className="flex flex-col  items-start gap-1">
                                 <p className="text-base  font-bold">
-                                    Get <span className="text-vivid">Creative AI</span>
+                                    Get <span className="text-luneth">Creative AI</span>
                                 </p>
                                 <span className="text-sm dark:text-secondary">
                                     {" "}
                                     Unlock all features including AI and more
                                 </span>
                             </div>
-                            <div className="w-full bg-vivid-gradient p-[1px] rounded-full">
+                            <div className="w-full bg-luneth-gradient p-[1px] rounded-full">
                                 <Button
-                                    className="w-full border-vivid bg-background-80 hover:bg-background-90 text-primary rounded-full font-bold"
+                                    className="w-full border-luneth bg-background-80 hover:bg-background-90 text-primary rounded-full font-bold"
                                     variant="default"
                                     size="lg"
                                     onClick={handleUpgrading}
