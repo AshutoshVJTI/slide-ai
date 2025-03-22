@@ -117,3 +117,24 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* Font size styles based on data-font-size attribute */
+html[data-font-size="small"] {
+  font-size: var(--font-size-small);
+}
+
+html[data-font-size="medium"] {
+  font-size: var(--font-size-medium);
+}
+
+html[data-font-size="large"] {
+  font-size: var(--font-size-large);
+}
+
+/* Reduced motion styles */
+html.reduce-motion * {
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+}

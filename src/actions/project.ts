@@ -252,7 +252,7 @@ export const deleteAllProjects = async (projectIds: string[]) => {
 export const getDeletedProjects = async () => {
   try {
     const checkUser = await onAuthenticateUser();
-    if (checkUser.status !== 2200 || !checkUser.user) {
+    if (checkUser.status !== 200 || !checkUser.user) {
       return { staus: 403, error: "User not authenticated" };
     }
 
@@ -271,6 +271,44 @@ export const getDeletedProjects = async () => {
     }
 
     return { status: 200, data: projects };
+  } catch (error) {
+    console.log("🔴 ERROR", error);
+    return { status: 500, error: "Internal Server Error" };
+  }
+};
+
+export const permanentDeleteProject = async (projectId: string) => {
+  try {
+    const checkUser = await onAuthenticateUser();
+    if (checkUser.status !== 200 || !checkUser.user) {
+      return { status: 403, error: "User Not Authenticated" };
+    }
+    
+    // Verify the project exists and belongs to the user
+    const project = await client.project.findFirst({
+      where: {
+        id: projectId,
+        userId: checkUser.user.id,
+        isDeleted: true, // Only permanently delete already trashed projects
+      },
+    });
+    
+    if (!project) {
+      return { status: 404, error: "Project not found in trash" };
+    }
+    
+    // Permanently delete the project
+    const deletedProject = await client.project.delete({
+      where: {
+        id: projectId,
+      },
+    });
+    
+    if (!deletedProject) {
+      return { status: 500, error: "Failed to permanently delete project" };
+    }
+    
+    return { status: 200, message: "Project permanently deleted" };
   } catch (error) {
     console.log("🔴 ERROR", error);
     return { status: 500, error: "Internal Server Error" };

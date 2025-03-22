@@ -10,11 +10,12 @@ import {
 import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { toast } from "sonner";
 
 const NavFooter = ({ prismaUser }: { prismaUser: User }) => {
     const { isLoaded, isSignedIn, user } = useUser();
+    const userButtonRef = useRef<HTMLDivElement>(null);
 
     const [loading, setLoading] = useState(false);
 
@@ -40,6 +41,14 @@ const NavFooter = ({ prismaUser }: { prismaUser: User }) => {
             });
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleUserButtonClick = () => {
+        // Find the button element inside the UserButton component and click it
+        const buttonElement = userButtonRef.current?.querySelector("button");
+        if (buttonElement) {
+            buttonElement.click();
         }
     };
 
@@ -73,9 +82,12 @@ const NavFooter = ({ prismaUser }: { prismaUser: User }) => {
                     <SignedIn>
                         <SidebarMenuButton
                             size={"lg"}
-                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
+                            onClick={handleUserButtonClick}
                         >
-                            <UserButton />
+                            <div ref={userButtonRef}>
+                                <UserButton />
+                            </div>
                             <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                                 <span className="truncate font-semibold">{user?.fullName}</span>
                                 <span className="truncate text-secondary">

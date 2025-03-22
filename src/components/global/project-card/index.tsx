@@ -12,6 +12,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { deleteProject, recoverProject } from "@/actions/project";
+import PermanentDeleteButton from "@/app/(protected)/(pages)/(dashboardPages)/trash/_components/PermanentDeleteButton";
 
 type Props = {
   projectId: string;
@@ -92,7 +93,7 @@ const ProjectCard = ({
       setOpen(false);
       router.refresh();
       toast.success("Success", {
-        description: "Project recovered successfully",
+        description: "Project moved to trash",
         style: toastCustomStyles.success,
       });
     } catch (error) {
@@ -135,27 +136,29 @@ const ProjectCard = ({
               {timeAgo(createdAt)}
             </p>
             {isDelete ? (
-              <AlertDialogBox
-                description="This will recover your project and restore your data."
-                className="bg-green-500 text-white dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-700"
-                loading={loading}
-                open={open}
-                onClick={handleRecover}
-                handleOpen={() => setOpen(!open)}
-              >
-                {" "}
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="bg-background-80 dark:hover:bg-background-90"
-                  disabled={loading}
+              <div className="flex items-center gap-2">
+                <AlertDialogBox
+                  description="This will recover your project and restore your data."
+                  className="bg-green-500 text-white dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-700"
+                  loading={loading}
+                  open={open}
+                  onClick={handleRecover}
+                  handleOpen={() => setOpen(!open)}
                 >
-                  Recover
-                </Button>
-              </AlertDialogBox>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="bg-background-80 dark:hover:bg-background-90"
+                    disabled={loading}
+                  >
+                    Recover
+                  </Button>
+                </AlertDialogBox>
+                <PermanentDeleteButton projectId={projectId} />
+              </div>
             ) : (
               <AlertDialogBox
-                description="This will delete your project and sent to trash."
+                description="This will delete your project and send it to trash."
                 className="bg-red-500 text-white dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700"
                 loading={loading}
                 open={open}
