@@ -1,16 +1,16 @@
-import { cn } from "@/lib/utils"
-import { useSlideStore } from "@/store/useSlideStore"
-import React from "react"
+import { cn } from "@/lib/utils";
+import { useSlideStore } from "@/store/useSlideStore";
+import React from "react";
 
-type CodeBlockProps = {
-    code?: string
-    language?: string
-    className?: string
-    onChange: (newCode: string) => void
-}
+type Props = {
+    code?: string;
+    language?: string;
+    onChange: (newCode: string) => void;
+    className?: string;
+};
 
-const CodeBlock = ({ className, code, language, onChange }: CodeBlockProps) => {
-    const { currentTheme } = useSlideStore()
+const CodeBlock = ({ code, language, onChange, className }: Props) => {
+    const { currentTheme } = useSlideStore();
 
     return (
         <pre
@@ -21,12 +21,12 @@ const CodeBlock = ({ className, code, language, onChange }: CodeBlockProps) => {
                 <textarea
                     value={code}
                     onChange={(e) => onChange(e.target.value)}
-                    className="size-full bg-transparent font-mono outline-none"
+                    className="w-full h-full bg-transparent outline-none font-mono"
                     style={{ color: currentTheme.fontColor }}
                 />
             </code>
         </pre>
-    )
-}
+    );
+};
 
-export default CodeBlock
+export default CodeBlock;

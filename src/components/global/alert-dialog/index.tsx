@@ -1,9 +1,18 @@
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogCancel } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
-import React from 'react';
+import React from "react";
+import {
+    AlertDialog,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
-type Props = {
+interface Props {
     children: React.ReactNode;
     className?: string;
     description: string;
@@ -15,15 +24,15 @@ type Props = {
 
 const AlertDialogBox = ({
     children,
-    className,
-    description,
+    handleOpen,
+    open,
     loading = false,
     onClick,
-    open,
-    handleOpen
+    description,
+    className,
 }: Props) => {
     return (
-        <AlertDialog open={open} onChange={handleOpen}>
+        <AlertDialog open={open} onOpenChange={handleOpen}>
             <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
@@ -39,18 +48,17 @@ const AlertDialogBox = ({
                     >
                         {loading ? (
                             <>
-                                <Loader2 className='animate-spin' />
+                                <Loader2 className="animate-spin" />
                                 Loading...
                             </>
                         ) : (
-                            'Continue'
+                            "Continue"
                         )}
                     </Button>
-
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-    )
-}
+    );
+};
 
-export default AlertDialogBox
+export default AlertDialogBox;

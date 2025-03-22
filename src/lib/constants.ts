@@ -741,4 +741,15 @@ export const themes: Theme[] = [
     },
 ];
 
-
+export const toastCustomStyles = {
+    success: {
+        backgroundColor: "#4ADE80",
+        color: "#fff",
+        borderStyle: "none",
+    },
+    error: {
+        backgroundColor: "#EF4444",
+        color: "#fff",
+        borderStyle: "none",
+    },
+};

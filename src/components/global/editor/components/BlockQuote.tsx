@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
-import { useSlideStore } from "@/store/useSlideStore"
-import React from "react"
+import { cn } from "@/lib/utils";
+import { useSlideStore } from "@/store/useSlideStore";
+import React from "react";
 
 interface BlockQuoteProps extends React.HTMLAttributes<HTMLQuoteElement> {
-    children: React.ReactNode
-    className?: string
+    children: React.ReactNode;
+    className?: string;
 }
 
 const BlockQuote = ({ children, className, ...props }: BlockQuoteProps) => {
-    const { currentTheme } = useSlideStore()
+    const { currentTheme } = useSlideStore();
 
     return (
         <blockquote
@@ -20,14 +20,12 @@ const BlockQuote = ({ children, className, ...props }: BlockQuoteProps) => {
                 "text-gray-700 dark:text-gray-300",
                 className
             )}
-            style={{
-                borderLeftColor: currentTheme.accentColor,
-            }}
+            style={{ borderLeftColor: currentTheme.accentColor }}
             {...props}
         >
             {children}
         </blockquote>
-    )
-}
+    );
+};
 
-export default BlockQuote
+export default BlockQuote;

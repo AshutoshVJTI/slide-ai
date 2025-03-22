@@ -1,40 +1,40 @@
-import Image from "next/image"
-import React from "react"
-import UploadImage from "./UploadImage"
+import Image from "next/image";
+import React from "react";
+import UploadImage from "./UploadImage";
 
-type CustomImageProps = {
-    src: string
-    alt: string
-    className?: string
-    isPreview?: boolean
-    isEditable?: boolean
-    contentId: string
+type Props = {
+    src: string;
+    alt: string;
+    className?: string;
+    isPreview?: boolean;
+    contentId: string;
     onContentChange: (
-        contentID: string,
+        contentId: string,
         newContent: string | string[] | string[][]
-    ) => void
-}
+    ) => void;
+    isEditable?: boolean;
+};
 
 const CustomImage = ({
-    alt,
-    contentId,
     src,
+    alt,
     className,
-    isEditable = true,
     isPreview = false,
+    contentId,
     onContentChange,
-}: CustomImageProps) => {
+    isEditable = true,
+}: Props) => {
     return (
-        <div className={`relative group size-full rounded-lg`}>
+        <div className={`relative group w-full  h-full  rounded-lg`}>
             <Image
                 src={src}
-                alt={alt}
-                className={`object-cover rounded-lg size-full ${className}`}
                 width={isPreview ? 48 : 800}
                 height={isPreview ? 48 : 800}
+                alt={alt}
+                className={`object-cover  w-full h-full rounded-lg ${className}`}
             />
             {!isPreview && isEditable && (
-                <div className="absolute top-0 right-0 hidden group-hover:block">
+                <div className="absolute top-0 left-0 hidden group-hover:block">
                     <UploadImage
                         contentId={contentId}
                         onContentChange={onContentChange}
@@ -42,7 +42,7 @@ const CustomImage = ({
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default CustomImage
+export default CustomImage;

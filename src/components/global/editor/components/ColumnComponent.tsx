@@ -1,92 +1,87 @@
-import MasterRecursiveComponent from '@/app/(protected)/presentation/[presentationId]/_components/editor/MasterRecursiveComponent';
+import MasterRecursiveComponent from "@/app/(protected)/presentation/[presentationId]/_components/editor/MasterRecursiveComponent";
 import {
     ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup,
-} from "@/components/ui/resizable"
-import { ContentItem } from "@/lib/types"
-import { cn } from "@/lib/utils"
-import React, { useEffect, useState } from "react"
-import { v4 } from "uuid"
+} from "@/components/ui/resizable";
+import { ContentItem } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-type ColumnComponentProps = {
-    content: ContentItem[]
-    className?: string
-    isPreview?: boolean
-    slideId: string
-    isEditable?: boolean
+type Props = {
+    content: ContentItem[];
+    className?: string;
+    isPreview?: boolean;
+    slideId: string;
     onContentChange: (
-        contentID: string,
+        contentId: string,
         newContent: string | string[] | string[][]
-    ) => void
-}
+    ) => void;
+    isEdiatable?: boolean;
+};
 
-const ColumnComponent = ({
+const ColumnComponents = ({
     content,
-    isPreview = false,
-    isEditable = true,
-    slideId,
     className,
+    isPreview = false,
+    slideId,
     onContentChange,
-}: ColumnComponentProps) => {
-    const [columns, setColumns] = useState<ContentItem[]>([])
+    isEdiatable = true,
+}: Props) => {
+    const [columns, setColumns] = useState<ContentItem[]>([]);
 
     const createDefaultColumns = (count: number) => {
         return Array(count)
             .fill(null)
             .map(() => ({
-                id: v4(),
+                id: uuidv4(),
                 type: "paragraph" as const,
                 name: "Paragraph",
                 content: "",
                 placeholder: "Start typing...",
-            }))
-    }
+            }));
+    };
 
     useEffect(() => {
-        if (!content || content.length === 0) {
-            const defaultColumns = createDefaultColumns(2)
-            setColumns(defaultColumns)
+        if (content.length === 0) {
+            setColumns(createDefaultColumns(2));
         } else {
-            setColumns(content)
+            setColumns(content);
         }
-    }, [content])
+    }, [content]);
 
     return (
-        <div className="relative size-full">
+        <div className="relative w-full h-full">
             <ResizablePanelGroup
                 direction="horizontal"
                 className={cn(
-                    "size-full flex",
-                    !isEditable && "!border-0",
+                    "h-full w-full flex",
+                    !isEdiatable && "!border-0",
                     className
                 )}
             >
-                {columns?.map((item, index) => (
+                {columns.map((item, index) => (
                     <React.Fragment key={item.id}>
-                        <ResizablePanel
-                            minSize={20}
-                            defaultSize={100 / (columns?.length || 1)}
-                        >
-                            <div className={cn("size-full", item.className)}>
+                        <ResizablePanel minSize={20} defaultSize={100 / columns.length}>
+                            <div className={cn("h-full w-full", item.className)}>
                                 <MasterRecursiveComponent
                                     content={item}
                                     isPreview={isPreview}
-                                    isEditable={isEditable}
-                                    slideId={slideId}
-                                    index={index}
                                     onContentChange={onContentChange}
+                                    slideId={slideId}
+                                    isEditable={isEdiatable}
                                 />
                             </div>
                         </ResizablePanel>
-                        {index < (columns?.length || 0) - 1 && isEditable && (
+                        {index < columns.length - 1 && isEdiatable && (
                             <ResizableHandle withHandle={!isPreview} />
                         )}
                     </React.Fragment>
                 ))}
             </ResizablePanelGroup>
         </div>
-    )
-}
+    );
+};
 
-export default ColumnComponent
+export default ColumnComponents;

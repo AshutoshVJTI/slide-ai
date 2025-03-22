@@ -79,7 +79,7 @@ export default {
 				},
 			},
 			backgroundImage: {
-				"vivid-gradient": "var( --creative-ai-gradient)",
+				"luneth-gradient": "var( --creative-ai-gradient)",
 			},
 			borderRadius: {
 				lg: "var(--radius)",

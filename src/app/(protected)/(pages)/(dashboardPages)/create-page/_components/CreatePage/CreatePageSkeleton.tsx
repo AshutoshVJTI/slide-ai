@@ -1,7 +1,8 @@
-import { Card, CardContent, CardHeader} from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-export default function CreatePageSkeleton () {
+const CreatePageSkeleton = () => {
   return (
     <div className="space-y-8">
       <div className="text-center space-y-2">
@@ -12,7 +13,7 @@ export default function CreatePageSkeleton () {
         {[0, 1, 2].map((i) => (
           <Card key={i}>
             <CardHeader>
-              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-6 w-3/4 " />
               <Skeleton className="h-4 w-full" />
             </CardHeader>
             <CardContent>
@@ -25,10 +26,7 @@ export default function CreatePageSkeleton () {
         <Skeleton className="h-8 w-1/4" />
         <div className="space-y-2">
           {[0, 1, 2].map((i) => (
-            <Card
-              key={i}
-              className="p-4"
-            >
+            <Card key={i} className="p-4">
               <div className="flex justify-between items-center">
                 <div>
                   <Skeleton className="h-5 w-32 mb-1" />
@@ -45,4 +43,5 @@ export default function CreatePageSkeleton () {
       </div>
     </div>
   );
-}
+};
+export default CreatePageSkeleton;

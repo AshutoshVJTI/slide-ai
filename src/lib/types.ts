@@ -123,9 +123,3 @@ interface Component {
   component: ContentItem;
   componentType: string;
 }
-
-export interface ReturnProps {
-  status: number
-  data?: any
-  error?: string
-}

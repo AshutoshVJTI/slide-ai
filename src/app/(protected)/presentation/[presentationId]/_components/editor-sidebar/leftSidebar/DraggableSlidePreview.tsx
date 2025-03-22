@@ -1,62 +1,53 @@
-import { Slide } from "@/lib/types"
-import { cn } from "@/lib/utils"
-import { useSlideStore } from "@/store/useSlideStore"
-import React, { useRef } from "react"
-import { useDrag, useDrop } from "react-dnd"
-import ScaledPreview from "./ScaledPreview"
+import { Slide } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import { useSlideStore } from "@/store/useSlideStore";
+import React, { useRef } from "react";
+import { useDrag, useDrop } from "react-dnd";
+import ScaledPreview from "./ScaledPreview";
 
-type DragableSlidePreviewProps = {
-    slide: Slide
-    index: number
-    moveSlide: (dragIndex: number, hoverIndex: number) => void
-}
+type Props = {
+    slide: Slide;
+    index: number;
+    moveSlide: (dragIndex: number, hoverIndex: number) => void;
+};
 
-const DragableSlidePreview = ({
-    index,
-    slide,
-    moveSlide,
-}: DragableSlidePreviewProps) => {
-    const ref = useRef<HTMLDivElement>(null)
-    const { currentSlide, setCurrentSlide } = useSlideStore()
+const DragabbleSlidePreview = ({ index, moveSlide, slide }: Props) => {
+    const { currentSlide, setCurrentSlide } = useSlideStore();
+    const ref = useRef<HTMLDivElement>(null);
 
     const [{ isDragging }, drag] = useDrag({
         type: "SLIDE",
-        item: { index, type: "SLIDE" },
+        item: { index },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
-    })
+    });
 
     const [, drop] = useDrop({
-        hover: (item: { index: number }) => {
-            if (!ref.current) {
-                return
-            }
-
-            const dragIndex = item.index
-            const hoverIndex = index
-
-            if (dragIndex === hoverIndex) {
-                return
-            }
-
-            moveSlide(dragIndex, hoverIndex)
-
-            item.index = hoverIndex
-        },
         accept: "SLIDE",
-    })
+        // eslint-disable-next-line  @typescript-eslint/no-unused-vars
+        hover(item: { index: number }, monitor) {
+            if (!ref.current) {
+                return;
+            }
+            const dragIndex = item.index;
+            const hoverIndex = index;
+            if (dragIndex === hoverIndex) {
+                return;
+            }
+            moveSlide(dragIndex, hoverIndex);
+            item.index = hoverIndex;
+        },
+    });
 
-    drag(drop(ref))
+    drag(drop(ref));
 
     return (
         <div
             ref={ref}
             className={cn(
-                "relative cursor-pointer group",
-                index === currentSlide
-                    ? "before:bg-blue-500"
-                    : "before:bg-transparent",
+                "relative cursor-pointer  group",
+                index === currentSlide ? "before:bg-blue-500" : "before:bg-transparent",
                 isDragging ? "opacity-50" : "opacity-100"
             )}
             onClick={() => setCurrentSlide(index)}
@@ -69,7 +60,7 @@ const DragableSlidePreview = ({
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default DragableSlidePreview
+export default DragabbleSlidePreview;

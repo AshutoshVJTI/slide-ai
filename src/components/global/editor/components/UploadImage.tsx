@@ -1,51 +1,33 @@
-"use client"
+"use client";
 
-import { FileUploaderRegular } from "@uploadcare/react-uploader/next"
-import "@uploadcare/react-uploader/core.css"
-import React from "react"
+import { FileUploaderRegular, } from "@uploadcare/react-uploader/next";
+import "@uploadcare/react-uploader/core.css";
 
-type UploadImageProps = {
-    contentId: string
-    onContentChange: (
-        contentID: string,
-        newContent: string | string[] | string[][]
-    ) => void
+type Props = {
+  contentId: string;
+  onContentChange: (
+    contentId: string,
+    newContent: string | string[] | string[][]
+  ) => void;
+};
+
+function UploadImage({ contentId, onContentChange }: Props) {
+  const handleChangeEvent = (e: { cdnUrl: string | string[] | string[][]; }) => {
+    onContentChange(contentId, e.cdnUrl);
+  };
+
+  return (
+    <div>
+      <FileUploaderRegular
+        sourceList="local, url, dropbox"
+        classNameUploader="uc-light"
+        pubkey={process.env.UPLOADCARE_PUBLIC_KEY!}
+        multiple={false}
+        onFileUploadSuccess={handleChangeEvent}
+        maxLocalFileSizeBytes={10000000}
+      />
+    </div>
+  );
 }
 
-const UploadImage = ({ contentId, onContentChange }: UploadImageProps) => {
-    const handelChangeEvent = (event: {
-        status: "success"
-        internalId: string
-        name: string
-        size: number
-        isImage: boolean
-        mimeType: string
-        metadata: any
-        file: File | Blob | null
-        externalUrl: string | null
-        uploadProgress: number
-        fullPath: string | null
-        source: any
-    }) => {
-        const cdnUrl = event.externalUrl || event.fullPath
-
-        if (cdnUrl) {
-            onContentChange(contentId, cdnUrl)
-        }
-    }
-
-    return (
-        <div>
-            <FileUploaderRegular
-                sourceList="local, camera, facebook, gdrive"
-                cameraModes="photo, video"
-                pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!}
-                multiple={false}
-                onFileUploadSuccess={handelChangeEvent}
-                maxLocalFileSizeBytes={10485760}
-            />
-        </div>
-    )
-}
-
-export default UploadImage
+export default UploadImage;

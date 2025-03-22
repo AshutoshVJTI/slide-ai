@@ -23,8 +23,8 @@ model User {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   lemonSqueezyApiKey String?
-  storeId            String
-  webhookSecret      String
+  storeId            String?
+  webhookSecret      String?
 
   Projects          Project[] @relation("OwnedProjects")
   PurchasedProjects Project[] @relation("PurchasedProjects")
@@ -44,6 +44,6 @@ model Project {
   thumbnail  String?
   themeName  String   @default("light")
 
-  User      User   @relation("OwnedProjects", fields: [userId], references: [id])
-  Purchases User[] @relation("PurchasedProjects")
+  User       User   @relation("OwnedProjects", fields: [userId], references: [id])
+  Purchasers User[] @relation("PurchasedProjects")
 }

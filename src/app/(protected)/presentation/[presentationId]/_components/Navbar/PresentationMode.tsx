@@ -11,26 +11,28 @@ type Props = {
 
 const PresentationMode = ({ onClose }: Props) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
   const { getOrderedSlides, currentTheme } = useSlideStore();
+
   const slides = getOrderedSlides();
 
-  const goToPreviousSlide = () => {
+  const gotToPreviousSlide = () => {
     setCurrentSlideIndex((prev) => Math.max(prev - 1, 0));
   };
 
   const isLastSlide = currentSlideIndex === slides.length - 1;
 
   const goToNextSlide = () => {
-    if (currentSlideIndex == slides.length - 1) {
+    if (currentSlideIndex === slides.length - 1) {
       onClose();
     } else {
       setCurrentSlideIndex((prev) => Math.min(prev + 1, slides.length - 1));
     }
   };
-  // 5:18:00
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === " ") {
+      if (e.key === "ArrowRight" || e.key === "") {
         if (currentSlideIndex === slides.length - 1) {
           onClose();
         } else {
@@ -44,7 +46,6 @@ const PresentationMode = ({ onClose }: Props) => {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [slides.length, currentSlideIndex]);
 
@@ -55,7 +56,7 @@ const PresentationMode = ({ onClose }: Props) => {
         style={{
           aspectRatio: "16/9",
           maxHeight: "100vh",
-          maxWidth: "177.78vw",
+          maxWidth: "177.78vh",
         }}
       >
         <AnimatePresence mode="wait">
@@ -75,7 +76,7 @@ const PresentationMode = ({ onClose }: Props) => {
           >
             <MasterRecursiveComponent
               content={slides[currentSlideIndex].content}
-              onContentChange={() => {}}
+              onContentChange={() => { }}
               slideId={slides[currentSlideIndex].id}
               isPreview={false}
               isEditable={false}
@@ -83,8 +84,8 @@ const PresentationMode = ({ onClose }: Props) => {
           </motion.div>
         </AnimatePresence>
         <Button
-          variant="ghost"
-          size="icon"
+          variant={"ghost"}
+          size={"icon"}
           className="absolute top-4 right-4 text-white"
           onClick={onClose}
         >
@@ -92,15 +93,15 @@ const PresentationMode = ({ onClose }: Props) => {
         </Button>
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4">
           <Button
-            variant="outline"
-            size="icon"
-            onClick={goToPreviousSlide}
+            variant={"outline"}
+            size={"icon"}
+            onClick={gotToPreviousSlide}
             disabled={currentSlideIndex === 0}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
           {!isLastSlide && (
-            <Button variant="outline" size="icon" onClick={goToNextSlide}>
+            <Button variant={"outline"} size={"icon"} onClick={goToNextSlide}>
               <ChevronRight className="h-4 w-4" />
             </Button>
           )}
