@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { updateUserProfile } from "@/actions/user";
-import { User } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 interface ProfileSettingsProps {
-  user: User;
+  user: Prisma.UserGetPayload<{}>;
 }
 
 const ProfileSettings = ({ user }: ProfileSettingsProps) => {
