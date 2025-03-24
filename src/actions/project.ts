@@ -251,7 +251,7 @@ export const deleteAllProjects = async (projectIds: string[]) => {
     const deletedProjects = await client.project.deleteMany({
       where: {
         id: {
-          in: projectToDelete.map((project) => project.id),
+          in: projectToDelete.map((project: { id: string }) => project.id),
         },
       },
     });

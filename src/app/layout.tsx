@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/provider/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { ClientOnlyToaster } from "@/components/client-only-toaster";
+import { Analytics } from "@vercel/analytics/react"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           <ThemeProvider>
             {children}
             <ClientOnlyToaster />
+            <Analytics />
           </ThemeProvider>
         </body>
       </html>
