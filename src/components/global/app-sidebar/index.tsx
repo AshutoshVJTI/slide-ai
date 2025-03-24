@@ -8,11 +8,39 @@ import {
     SidebarHeader,
     SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import { Project, User } from "@prisma/client";
 import NavMain from "./nav-main";
 import { data } from "@/lib/constants";
 import RecentOpen from "./recent-open";
 import NavFooter from "./nav-footer";
+
+interface User {
+  id: string;
+  clerkId: string;
+  name: string;
+  email: string;
+  profileImage: string | null;
+  subscription: boolean | null;
+  createdAt: Date;
+  updatedAt: Date;
+  lemonSqueezyApiKey: string | null;
+  storeId: string;
+  webhookSecret: string;
+}
+
+interface Project {
+  id: string;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+  slides: any;
+  userId: string;
+  outlines: string[];
+  isDeleted: boolean;
+  isSellable: boolean;
+  varientId: string | null;
+  thumbnail: string | null;
+  themeName: string;
+}
 
 const AppSidebar = ({
     recentProjects,
