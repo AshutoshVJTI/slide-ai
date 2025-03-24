@@ -18,7 +18,7 @@ type Props = {
         contentId: string,
         newContent: string | string[] | string[][]
     ) => void;
-    isEdiatable?: boolean;
+    isEditable?: boolean;
 };
 
 const ColumnComponents = ({
@@ -27,7 +27,7 @@ const ColumnComponents = ({
     isPreview = false,
     slideId,
     onContentChange,
-    isEdiatable = true,
+    isEditable = true,
 }: Props) => {
     const [columns, setColumns] = useState<ContentItem[]>([]);
 
@@ -57,7 +57,7 @@ const ColumnComponents = ({
                 direction="horizontal"
                 className={cn(
                     "h-full w-full flex",
-                    !isEdiatable && "!border-0",
+                    !isEditable && "!border-0",
                     className
                 )}
             >
@@ -70,11 +70,11 @@ const ColumnComponents = ({
                                     isPreview={isPreview}
                                     onContentChange={onContentChange}
                                     slideId={slideId}
-                                    isEditable={isEdiatable}
+                                    isEditable={isEditable}
                                 />
                             </div>
                         </ResizablePanel>
-                        {index < columns.length - 1 && isEdiatable && (
+                        {index < columns.length - 1 && isEditable && (
                             <ResizableHandle withHandle={!isPreview} />
                         )}
                     </React.Fragment>

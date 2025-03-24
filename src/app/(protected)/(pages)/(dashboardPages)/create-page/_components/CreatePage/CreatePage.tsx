@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import {
   containerVariants,
@@ -16,11 +16,7 @@ type Props = {
 };
 
 const CreatePage = ({ onSelectOption }: Props) => {
-  const { prompts, setPage } = usePromptStore();
-
-//   useEffect(() => {
-//     setPage("create");
-//   }, []);
+  const { prompts } = usePromptStore();
 
   return (
     <motion.div

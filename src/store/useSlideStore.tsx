@@ -58,7 +58,7 @@ export const useSlideStore = create(
         setCurrentTheme: (theme) => set({ currentTheme: theme }),
         getOrderedSlides: () => {
             const state = get();
-            return [...state.slides].sort((a, b) => a.slideOrder - b.slideOrder)
+            return (state.slides || []).slice().sort((a, b) => a.slideOrder - b.slideOrder);
         },
         setCurrentSlide: (index) => set({ currentSlide: index }),
         updateContentItem: (slideId, contentId, newContent) => set((state) => {

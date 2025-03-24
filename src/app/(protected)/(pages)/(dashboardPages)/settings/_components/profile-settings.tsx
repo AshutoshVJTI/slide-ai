@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
-import { updateUserProfile, updateUserAvatar } from "@/actions/user";
+import { updateUserProfile } from "@/actions/user";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +19,6 @@ const ProfileSettings = ({ user }: ProfileSettingsProps) => {
   const router = useRouter();
   const [name, setName] = useState(user?.name || "");
   const [isLoading, setIsLoading] = useState(false);
-  const [isBioLoading, setIsBioLoading] = useState(false);
   
   // In a real implementation, you would use something like react-dropzone for file uploads
   const handleAvatarChange = () => {

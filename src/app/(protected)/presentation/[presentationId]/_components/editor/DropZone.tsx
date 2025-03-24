@@ -11,7 +11,8 @@ type Props = {
     slideId: string;
 }
 
-const DropZone = ({ index, parentId, slideId }: Props) => {
+// This component will handle the drop functionality when inside a DndProvider context
+const DropZoneContent = ({ index, parentId, slideId }: Props) => {
     const { addComponentInSlide } = useSlideStore();
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: 'CONTENT_ITEM',
@@ -29,7 +30,8 @@ const DropZone = ({ index, parentId, slideId }: Props) => {
             isOver: monitor.isOver(),
             canDrop: monitor.canDrop(),
         }),
-    })
+    });
+
     return (
         <div
             ref={drop as unknown as React.RefObject<HTMLDivElement>}
@@ -48,7 +50,17 @@ const DropZone = ({ index, parentId, slideId }: Props) => {
                 </div>
             )}
         </div>
-    )
+    );
 }
 
-export default DropZone
+// This component determines whether to render the DropZoneContent or fallback
+const DropZone = (props: Props) => {
+    try {
+        return <DropZoneContent {...props} />;
+    } catch {
+        // If there's an error, we're not inside a DndProvider context
+        return null;
+    }
+};
+
+export default DropZone;

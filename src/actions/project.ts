@@ -159,6 +159,22 @@ export const getProjectById = async (projectId: string) => {
   }
 };
 
+export const getSharedProjectById = async (projectId: string) => {
+  try {
+    const project = await client.project.findFirst({
+      where: { id: projectId },
+    });
+
+    if (!project) {
+      return { status: 404, error: "Project not found" };
+    }
+    return { status: 200, data: project };
+  } catch (error) {
+    console.log("🔴 ERROR", error);
+    return { status: 500, error: "Internal Server Error" };
+  }
+};
+
 export const updateSlides = async (projectId: string, slides: JsonValue) => {
   try {
     if (!projectId || !slides) {

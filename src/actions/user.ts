@@ -1,22 +1,7 @@
 "use server";
 
 import { client } from "@/lib/prisma";
-import { auth, currentUser, clerkClient } from "@clerk/nextjs/server";
-import { User } from "@prisma/client";
-
-// Define types for user preferences
-interface UserPreferences {
-    theme?: string;
-    reduceAnimations?: boolean;
-    fontSize?: string;
-}
-
-interface NotificationPreferences {
-    emailNotifications?: boolean;
-    presentationComments?: boolean;
-    projectUpdates?: boolean;
-    marketingEmails?: boolean;
-}
+import { currentUser } from "@clerk/nextjs/server";
 
 export const onAuthenticateUser = async () => {
     try {

@@ -1,22 +1,19 @@
-import { LayoutSlides } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import React from "react"
 
 type LayoutPreviewItemProps = {
     name: string
     Icon: React.FC
-    type: string
     isSelected?: boolean
-    comopnent: LayoutSlides
     onClick?: () => void
+    type?: string
+    comopnent?: any
 }
 
 const LayoutPreviewItem = ({
     Icon,
-    comopnent,
     isSelected,
     name,
-    type,
     onClick,
 }: LayoutPreviewItemProps) => {
     return (

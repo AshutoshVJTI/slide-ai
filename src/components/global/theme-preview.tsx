@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Theme } from '@/lib/types'
 import { Card } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 interface ThemePreviewProps {
   theme: Theme
@@ -224,7 +223,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
                   className="text-6xl mb-4"
                   style={{ color: theme.accentColor }}
                 >
-                  "
+                  &quot;
                 </span>
                 <p className="text-xl text-center mb-8">
                   This is an example of a quote or testimonial slide showcasing how this theme handles important quoted content.

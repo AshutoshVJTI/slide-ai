@@ -36,9 +36,9 @@ interface DropZoneProps {
     ) => void
 }
 
-export const DropZone: React.FC<DropZoneProps> = ({
+// Component that handles drop functionality
+const DropZoneContent: React.FC<DropZoneProps> = ({
     index,
-    isEditable,
     onDrop,
 }) => {
     const [{ isOver, canDrop }, dropref] = useDrop({
@@ -48,38 +48,33 @@ export const DropZone: React.FC<DropZoneProps> = ({
             layoutType: string
             component: LayoutSlides
             index?: number
-        }) => {
-            onDrop(item, index)
-        },
-        canDrop: () => isEditable,
+        }) => onDrop(item, index),
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop(),
         }),
     })
 
-    if (!isEditable) {
-        return null
-    }
-
     return (
         <div
-            ref={dropref as unknown as React.RefObject<HTMLDivElement>}
+            ref={dropref as unknown as React.LegacyRef<HTMLDivElement>}
             className={cn(
-                "h-4 rounded-md transition-all duration-200",
-                isOver && canDrop
-                    ? "border-green-500 bg-green-100"
-                    : "border-gray-300",
-                canDrop ? "border-blue-300" : ""
+                "h-3 transition-all duration-200",
+                isOver && canDrop && "bg-blue-500 h-6"
             )}
-        >
-            {isOver && canDrop && (
-                <div className="h-full flex items-center justify-center text-green-600">
-                    Drop Here
-                </div>
-            )}
-        </div>
+        ></div>
     )
+}
+
+// Wrapper component that conditionally renders the drop zone
+export const DropZone: React.FC<DropZoneProps> = (props) => {
+    if (!props.isEditable) return null
+    
+    try {
+        return <DropZoneContent {...props} />
+    } catch {
+        return null
+    }
 }
 
 interface DragableSlideProps {
@@ -90,47 +85,43 @@ interface DragableSlideProps {
     handleDelete: (id: string) => void
 }
 
-export const DragableSlide: React.FC<DragableSlideProps> = ({
+// Component that handles drag functionality
+const DragableSlideContent: React.FC<DragableSlideProps> = ({
     index,
     slide,
     isEditable,
     moveSlide,
     handleDelete,
 }) => {
-    const ref = useRef(null)
+    const slideRef = useRef<HTMLDivElement>(null)
     const { currentSlide, currentTheme, setCurrentSlide, updateContentItem } =
         useSlideStore()
+        
     const [{ isDragging }, drag] = useDrag({
         type: "SLIDE",
-        item: { index, type: "SLIDE" },
+        item: { index, type: "slide" },
         collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
+            isDragging: !!monitor.isDragging(),
         }),
-        canDrag: isEditable,
     })
 
     const [, drop] = useDrop({
-        accept: ["SLIDE", "LAYOUT"],
+        accept: "SLIDE",
         hover(item: { index: number; type: string }) {
-            if (!ref.current || !isEditable) {
+            if (!slideRef.current) {
                 return
             }
-
             const dragIndex = item.index
             const hoverIndex = index
-
-            if (item.type === "SLIDE") {
-                if (dragIndex === hoverIndex) {
-                    return
-                }
-
-                moveSlide(dragIndex, hoverIndex)
-                item.index = hoverIndex
+            if (dragIndex === hoverIndex) {
+                return
             }
+            moveSlide(dragIndex, hoverIndex)
+            item.index = hoverIndex
         },
     })
 
-    drag(drop(ref))
+    drag(drop(slideRef))
 
     const handelContentChange = (
         contentID: string,
@@ -143,7 +134,7 @@ export const DragableSlide: React.FC<DragableSlideProps> = ({
 
     return (
         <div
-            ref={ref}
+            ref={slideRef}
             className={cn(
                 "w-full rounded-lg shadow-lg relative p-0 min-h-[400px] max-h-[800px]",
                 "shadow-xl transition-shadow duration-300",
@@ -191,6 +182,15 @@ export const DragableSlide: React.FC<DragableSlideProps> = ({
             )}
         </div>
     )
+}
+
+// Wrapper component that conditionally renders the dragable slide
+export const DragableSlide: React.FC<DragableSlideProps> = (props) => {
+    try {
+        return <DragableSlideContent {...props} />
+    } catch {
+        return null
+    }
 }
 
 const Editor = ({ isEditable }: EditorProps) => {

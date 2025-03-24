@@ -51,7 +51,8 @@ const ThemePicker = ({ onThemeSelect, selectedTheme }: Props) => {
             })
             setSlides(res.data);
             router.push(`/presentation/${project?.id}`);
-        } catch (error) {
+        } catch (err) {
+            void err;
             toast.error('Error', {
                 description: 'Failed to generate layouts',
             })

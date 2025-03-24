@@ -14,9 +14,7 @@ import Editor from "./_components/editor/Editor";
 import LayoutPreview from "./_components/editor-sidebar/leftSidebar/LayoutPreview";
 import EditorSidebar from "./_components/editor-sidebar/rightSidebar";
 
-type Props = {};
-
-const Page = (props: Props) => {
+const Page = () => {
   const params = useParams();
   const { setTheme } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
@@ -29,11 +27,10 @@ const Page = (props: Props) => {
         const res = await getProjectById(params.presentationId as string);
         if (res.status !== 200 || !res.data) {
           toast.error("Error", {
-            description: "Unable to fetch projects",
+            description: "Project not found",
           });
-          redirect("/dashboard");
+          return redirect("/dashboard");
         }
-
         const findTheme = themes.find(
           (theme) => theme.name === res.data.themeName
         );
@@ -41,13 +38,14 @@ const Page = (props: Props) => {
         setTheme(findTheme?.type === "dark" ? "dark" : "light");
         setProject(res.data);
         setSlides(JSON.parse(JSON.stringify(res.data.slides)));
-      } catch (error) {
+      } catch (err) {
+        void err;
         toast.error("Error", { description: "An unexpected error occured" });
       } finally {
         setIsLoading(false);
       }
     })();
-  }, []);
+  }, [params.presentationId, setCurrentTheme, setProject, setSlides, setTheme]);
 
   if (isLoading) {
     return (

@@ -109,7 +109,7 @@ export const ThemeCard: React.FC<ThemeCardProps> = ({ theme, onPreview }) => {
               
               {index === 3 && (
                 <div className="flex flex-col items-center px-4">
-                  <span className="text-xl" style={{ color: theme.accentColor }}>"</span>
+                  <span className="text-xl" style={{ color: theme.accentColor }}>&quot;</span>
                   <span className="text-xs text-center" style={{ color: theme.fontColor }}>
                     Quote text
                   </span>
