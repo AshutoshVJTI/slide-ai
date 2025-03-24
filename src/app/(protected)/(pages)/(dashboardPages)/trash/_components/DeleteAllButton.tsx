@@ -3,11 +3,25 @@
 import { deleteAllProjects } from "@/actions/project";
 import AlertDialogBox from "@/components/global/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Project } from "@prisma/client";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
+
+interface Project {
+    id: string;
+    title: string;
+    createdAt: Date;
+    updatedAt: Date;
+    slides?: any;
+    userId: string;
+    outlines: string[];
+    isDeleted: boolean;
+    isSellable: boolean;
+    varientId?: string | null;
+    thumbnail?: string | null;
+    themeName: string;
+}
 
 type Props = {
     Projects: Project[];
