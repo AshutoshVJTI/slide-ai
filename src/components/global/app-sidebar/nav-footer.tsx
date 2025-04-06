@@ -31,13 +31,13 @@ const NavFooter = ({ prismaUser }: { prismaUser: User }) => {
         try {
             const res = await buySubscription(prismaUser.id);
             if (res.status !== 200) {
-                throw new Error("Failed to upgrade subscription");
+                throw new Error(res.details || "Failed to upgrade subscription");
             }
             router.push(res.url);
         } catch (error) {
             console.error(error);
             toast.error("Error", {
-                description: "Something went wrong. Please try again later.",
+                description: error instanceof Error ? error.message : "Something went wrong. Please try again later.",
             });
         } finally {
             setLoading(false);
