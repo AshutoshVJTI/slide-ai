@@ -37,25 +37,41 @@ const ThemePicker = ({ onThemeSelect, selectedTheme }: Props) => {
             return;
         }
         try {
-            const res = await generateLayouts(
-                params.presentationId as string,
-                currentTheme.name
-            )
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 25000);
+            
+            const res = await Promise.race([
+                generateLayouts(
+                    params.presentationId as string,
+                    currentTheme.name
+                ),
+                new Promise<never>((_, reject) => {
+                    setTimeout(() => reject(new Error('Request timeout')), 25000);
+                })
+            ]) as { status: number; data?: any; error?: string };
+            
+            clearTimeout(timeoutId);
 
-            if (res.status !== 200 && !res?.data) {
+            if (res.status !== 200 || !res?.data) {
                 throw new Error('Failed to generate layouts');
-
             }
+            
             toast.success('Success', {
                 description: 'Layouts generated successfully',
             })
             setSlides(res.data);
             router.push(`/presentation/${project?.id}`);
-        } catch (err) {
-            void err;
-            toast.error('Error', {
-                description: 'Failed to generate layouts',
-            })
+        } catch (err: any) {
+            console.error('Generation error:', err);
+            if (err.message === 'Request timeout' || err.name === 'AbortError') {
+                toast.error('Error', {
+                    description: 'Request timed out. Please try again or contact support if the issue persists.',
+                });
+            } else {
+                toast.error('Error', {
+                    description: 'Failed to generate layouts',
+                });
+            }
         } finally {
             setLoading(false);
         }

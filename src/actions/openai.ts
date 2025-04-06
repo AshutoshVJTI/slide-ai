@@ -726,8 +726,8 @@ ${JSON.stringify([
         },
         { role: 'user', content: prompt },
       ],
-      max_tokens: 5000,
-      temperature: 0.7,
+      max_tokens: 4000,
+      temperature: 0.5,
     })
 
     const responseContent = completion?.choices?.[0]?.message?.content
