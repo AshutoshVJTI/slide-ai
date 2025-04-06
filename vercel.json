@@ -1,9 +1,12 @@
 {
   "functions": {
-    "app/api/**/*": {
+    "api/*.js": {
       "maxDuration": 60
     },
-    "app/**/*": {
+    "app/presentation/*/select-theme/page.js": {
+      "maxDuration": 60
+    },
+    "app/api/*/route.js": {
       "maxDuration": 60
     }
   }

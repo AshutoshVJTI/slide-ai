@@ -717,18 +717,27 @@ ${JSON.stringify([
 
   try {
     console.log('🟢 Generating layouts...')
+    
+    // Create AbortController for timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 40000); // 40 second timeout
+    
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-2024-11-20',
       messages: [
         {
           role: 'system',
-          content: 'You generate JSON layouts for presentations.',
+          content: 'You generate JSON layouts for presentations. Keep layouts simple and respond quickly.',
         },
         { role: 'user', content: prompt },
       ],
-      max_tokens: 4000,
-      temperature: 0.5,
-    })
+      max_tokens: 3000, // Further reduced
+      temperature: 0.3, // Further reduced for more deterministic output
+    }, {
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
 
     const responseContent = completion?.choices?.[0]?.message?.content
 
@@ -747,9 +756,12 @@ ${JSON.stringify([
 
     console.log('🟢 Layouts generated successfully')
     return { status: 200, data: jsonResponse }
-  } catch (error) {
-    console.error('🔴 ERROR:', error)
-    return { status: 500, error: 'Internal server error' }
+  } catch (error: any) {
+    console.log('🔴 ERROR:', error)
+    if (error.name === 'AbortError') {
+      return { status: 504, error: 'Request timed out. Try simplifying your presentation content.' }
+    }
+    throw new Error('Invalid JSON format received from AI')
   }
 }
 
