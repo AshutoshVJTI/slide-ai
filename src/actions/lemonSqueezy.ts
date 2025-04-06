@@ -18,6 +18,13 @@ export const buySubscription = async (buyUserId: string) => {
       throw new Error("NEXT_PUBLIC_HOST_URL is missing");
     }
     
+    // Ensure host URL is properly formatted
+    let redirectUrl = `${process.env.NEXT_PUBLIC_HOST_URL}/dashboard`;
+    // Make sure URL starts with http:// or https://
+    if (!redirectUrl.startsWith('http://') && !redirectUrl.startsWith('https://')) {
+      redirectUrl = `https://${redirectUrl}`;
+    }
+    
     // Correct payload structure per LemonSqueezy API
     const payload = {
       data: {
@@ -29,7 +36,7 @@ export const buySubscription = async (buyUserId: string) => {
             },
           },
           product_options: {
-            redirect_url: `${process.env.NEXT_PUBLIC_HOST_URL}/dashboard`,
+            redirect_url: redirectUrl,
           },
         },
         relationships: {
