@@ -1,6 +1,6 @@
 {
   "functions": {
-    "**/*.js": {
+    "**/*.{js,ts}": {
       "maxDuration": 60
     }
   }
