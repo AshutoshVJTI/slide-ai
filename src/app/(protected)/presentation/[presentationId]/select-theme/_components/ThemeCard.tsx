@@ -1,6 +1,6 @@
 import React from 'react'
 import { Theme } from '@/lib/types';
-import { AnimationControls, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 
@@ -10,7 +10,7 @@ type Props = {
     content: React.ReactNode
     variant: 'left' | 'main' | 'right'
     theme: Theme
-    controls: AnimationControls
+    controls: any // changed from AnimationControls to any
 }
 
 const ThemeCard = ({
@@ -33,7 +33,7 @@ const ThemeCard = ({
                 scale: 0.95,
                 rotate: 10,
                 transition: {
-                    type: 'spring',
+                    type: 'spring' as const,
                     stiffness: 300,
                     damping: 30,
                     delay: 0.1,
@@ -51,7 +51,7 @@ const ThemeCard = ({
                 scale: 0.95,
                 rotate: 10,
                 transition: {
-                    type: 'spring',
+                    type: 'spring' as const,
                     stiffness: 300,
                     damping: 30,
                     delay: 0.1,
@@ -66,7 +66,7 @@ const ThemeCard = ({
                 opacity: 1,
                 scale: 1,
                 transition: {
-                    type: 'spring',
+                    type: 'spring' as const,
                     stiffness: 300,
                     damping: 30,
                     delay: 0.2,
@@ -81,7 +81,7 @@ const ThemeCard = ({
             animate={controls}
             variants={variants[variant]}
             className="absolute w-full max-w-3xl"
-            style={{ zIndex: variant === "main" ? 10 : 0 }}
+            style={{ zIndex: variant === "main" ? 10 : 0 } as any}
         >
             <Card
                 className="w-full shadow-2xl backdrop-blur-sm"
